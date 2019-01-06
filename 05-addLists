@@ -1,0 +1,97 @@
+
+/**
+ * 给定两个链表表示的整数， 这些数位反向存放。编程实现对两个整数的求和，并用链表形式返回结果。 
+ *
+ */
+public class Q5 {
+	
+	
+	/**
+	 * 链表中的顺序是从个位数到大数
+	 * @param n1
+	 * @param n2
+	 * @return
+	 */
+	public static Node addLists(Node n1, Node n2){
+		if(n1 == null)
+			return n2;
+		if(n2 == null)
+			return n1;
+		Node res = new Node(0), temp = res;
+		int flag = 0;
+		while(n1 != null && n2 != null){
+			int tmp = n1.data + n2.data + flag;
+			if(tmp >= 10) flag = 1;
+			temp.next = new Node(tmp%10);
+			temp = temp.next;
+			n1 = n1.next;
+			n2 = n2.next;
+		}
+		if(n1 != null && n2 == null)
+			temp.next = n1;
+		else if(n1 == null && n2 != null)
+			temp.next = n1;
+		return res.next;
+	}
+	
+	
+	/**
+	 * 链表中的数是从大数到小数   
+	 * @param n1
+	 * @param n2
+	 * @return
+	 */
+	public static Node addLists1(Node n1, Node n2){
+		Node rn1 = reverse(n1);
+		Node rn2 = reverse(n2);
+		return reverse(addLists(rn1, rn2));
+	}
+	
+	
+	/**
+	 * 反转链表
+	 * @param node
+	 * @return
+	 */
+	public static Node reverse(Node node){
+		if(node == null || node.next == node)
+			return node;
+		Node head = null;
+		while(node != null){
+			Node cur = new Node(node.data);
+			cur.next = head;
+			head = cur;
+			node = node.next;
+		}
+		return head;
+	}
+	
+	public static void main(String[] args) {
+//		Node head = new Node(1);
+//		head.next = new Node(2);
+//		head.next.next = new Node(3);
+//		head.next.next.next = new Node(4);
+//		Node res  = reverse(head);
+//		while(res != null){
+//			System.out.print(res.data + " ");
+//			res = res.next;
+//		}
+		
+		Node n1 = new Node(6);
+		n1.next = new Node(1);
+		n1.next.next = new Node(7);
+		
+		
+		Node n2 = new Node(2);
+		n2.next = new Node(9);
+		n2.next.next = new Node(5);
+		
+		
+		Node res = addLists1(n1, n2);
+		while(res != null){
+			System.out.print(res.data + " ");
+			res = res.next;
+		}
+	}
+	
+}

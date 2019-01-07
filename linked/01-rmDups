@@ -1,0 +1,44 @@
+
+	/**
+	 * 移除非排序链表中的重复节点
+	 * 思路： 使用Set数据结构来存储记录节点，如果有重复节点，就删除当前链表中的节点
+	 * @param head
+	 */
+	public static void rmDups(Node head){
+		if(head == null || head.next == null)
+			return;
+		Set<Integer> st  = new HashSet<>();
+		Node cur = head;
+		st.add(head.data);
+		while(cur != null && cur.next != null){
+			if(!st.add(cur.next.data))
+				cur.next = cur.next.next;
+			else
+				cur = cur.next;
+		}
+	}
+	
+	
+	/**
+	 * 进阶：不 使用缓冲区
+	 * 
+	 * 使用两个链表， 一个遍历整个链表， 另一个用于检查当前链表节点的后续链表
+	 * 
+	 * @param head
+	 */
+	public static void rmDups2(Node head){
+		if(head == null || head.next == null)
+			return;
+		Node cur = head;
+		while(cur != null){
+			Node ncur = cur;
+			while(ncur.next != null){   //  检查后续链表中的节点是否有重复的
+				if(ncur.next.data == cur.data)
+					ncur.next = ncur.next.next;
+				else
+					ncur = ncur.next;
+			}
+			cur = cur.next;
+		}
+	}
+	
